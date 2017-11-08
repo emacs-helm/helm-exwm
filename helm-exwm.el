@@ -134,10 +134,9 @@ If FILTER is nil, then list all EXWM buffers."
                                      (with-current-buffer b (unless (eq major-mode 'exwm-mode) b)))
                                    (helm-buffer-list))))))
 
-;; TODO: EXWM source should auto-update.
 (defun helm-exwm-build-source (&optional filter)
   (helm-build-sync-source "EXWM buffers"
-    :candidates (helm-exwm-candidates filter)
+    :candidates (function (lambda () (helm-exwm-candidates filter)))
     :candidate-transformer 'helm-exwm-highlight-buffers
     :action '(("Switch to buffer(s)" . helm-buffer-switch-buffers)
               ("Switch to buffer(s) in other window `C-c o'" . helm-buffer-switch-buffers-other-window)
