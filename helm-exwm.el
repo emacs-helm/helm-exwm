@@ -136,7 +136,7 @@ If FILTER is nil, then list all EXWM buffers."
 
 (defun helm-exwm-build-source (&optional filter)
   (helm-build-sync-source "EXWM buffers"
-    :candidates (function (lambda () (helm-exwm-candidates filter)))
+    :candidates (lambda () (helm-exwm-candidates filter))
     :candidate-transformer 'helm-exwm-highlight-buffers
     :action '(("Switch to buffer(s)" . helm-buffer-switch-buffers)
               ("Switch to buffer(s) in other window `C-c o'" . helm-buffer-switch-buffers-other-window)
@@ -144,7 +144,6 @@ If FILTER is nil, then list all EXWM buffers."
               ("Kill buffer(s) `M-D`" . helm-kill-marked-buffers))
     ;; When follow-mode is on, the persistent-action allows for multiple candidate selection.
     :persistent-action 'helm-buffers-list-persistent-action
-    :update (function (lambda () (helm-exwm-candidates filter)))
     :keymap helm-exwm-map))
 
 (defun helm-exwm (&optional filter)
