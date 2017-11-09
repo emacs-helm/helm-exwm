@@ -149,6 +149,7 @@ If FILTER is nil, then list all EXWM buffers."
     :persistent-action 'helm-buffers-list-persistent-action
     :keymap helm-exwm-map))
 
+;;;###autoload
 (defun helm-exwm (&optional filter)
   "Preconfigured `helm' to list EXWM buffers allowed by FILTER.
 
@@ -201,6 +202,7 @@ With prefix argument or if OTHER-WINDOW is non-nil, open in other window."
             (when other-window (select-window (split-window-sensibly)))
             (start-process-shell-command program nil program)))))))
 
+;;;###autoload
 (defun helm-exwm-switch-browser ()
   "Switch to some `browse-url-generic-program' windows.
 
@@ -208,6 +210,7 @@ See `helm-exwm-switch'."
   (interactive)
   (helm-exwm-switch (file-name-nondirectory browse-url-generic-program) browse-url-generic-program))
 
+;;;###autoload
 (defun helm-exwm-switch-browser-other-window ()
   "Switch to some `browse-url-generic-program' windows in other window.
 
