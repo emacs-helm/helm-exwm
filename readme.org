@@ -1,22 +1,22 @@
 #+TITLE: Helm-EXWM
 
-New Helm sources for [[https://github.com/ch11ng/exwm][EXWM]], the Emacs X Window Manager.
+Helm for [[https://github.com/ch11ng/exwm][EXWM]], the Emacs X Window Manager.
 
 Helm-EXWM defines two new sources: one for a customizable selection of EXWM
-buffers, one for the rest of Emacs buffers.  This enables to effectively
-separate Emacs buffers from EXWM buffers in ~helm-mini~.
+buffers, one for the rest of Emacs buffers.  This allows to effectively separate
+Emacs buffers from EXWM buffers in ~helm-mini~.
 
-- Call ~helm-exwm~ to spawn a Helm session of all EXWM buffers.
+- Run ~helm-exwm~ to spawn a Helm session of all EXWM buffers.
 - Call ~(helm-exwm FILTER)~ to spawn a Helm session of all EXWM buffers for
-  which the FILTER returns non-nil.
-- To define a source of filtered EXWM buffers, use ~(setq helm-exwm-source
+  which the FILTER function returns non-nil.
+- To define a source of filtered EXWM buffers, use ~(setq my-helm-exwm-source
   (helm-exwm-build-source FILTER))~.
 - Enable follow-mode with ~(add-to-list 'helm-source-names-using-follow "EXWM buffers")~.
 
-Helm-EXWM also provides the ~helm-exwm-switch~ function which helps with
-switching to EXWM-supported programs.  By default, Helm-EXWM provides to custom
-switchers for ~browse-url-generic-program~.  See ~helm-exwm-switch-browser~ and
-~helm-exwm-switch-browser-other-window~.  Those switchers are most useful when
-bound to global keys.
+Helm-EXWM also provides the ~helm-exwm-switch~ helper function for switching to
+EXWM-supported programs.  It uses Helm to switch between the windows owned by
+one or several specific programs.
 
-*Warning:* This project is still in an early development phase, some features are broken.
+Helm-EXWM provides two default switchers for ~browse-url-generic-program~.  See
+~helm-exwm-switch-browser~ and ~helm-exwm-switch-browser-other-window~.  Those
+switchers are most useful when bound to global keys.
