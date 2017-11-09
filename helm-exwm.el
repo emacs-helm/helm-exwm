@@ -138,6 +138,8 @@ If FILTER is nil, then list all EXWM buffers."
                                    (helm-buffer-list))))))
 
 (defun helm-exwm-build-source (&optional filter)
+  "Build source for EXWM buffers.
+See `helm-exwm' for more details."
   (helm-build-sync-source "EXWM buffers"
     :candidates (lambda () (helm-exwm-candidates filter))
     :candidate-transformer 'helm-exwm-highlight-buffers
