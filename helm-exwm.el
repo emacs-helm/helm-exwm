@@ -132,10 +132,8 @@ If FILTER is nil, then list all EXWM buffers."
   "Build a Helm source for all non-EXWM buffers."
   (helm-make-source "Emacs buffers" 'helm-source-buffers
     :buffer-list (lambda ()
-                   (delete nil
-                           (mapcar (lambda (b)
-                                     (with-current-buffer b (unless (eq major-mode 'exwm-mode) b)))
-                                   (helm-buffer-list))))))
+                   (seq-filter (lambda (b) (with-current-buffer b (not (eq major-mode 'exwm-mode))))
+                               (helm-buffer-list)))))
 
 (defun helm-exwm-build-source (&optional filter)
   "Build source for EXWM buffers.
