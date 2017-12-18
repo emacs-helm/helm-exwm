@@ -49,6 +49,9 @@
 ;;; Code:
 ;; TODO: Post on EXWM's wiki once on MELPA.
 
+(require 'helm-source)
+(require 'exwm)
+
 (defvar helm-exwm-buffer-max-length 51
   "Max length of EXWM buffer names before truncating.
 When disabled (nil) use the longest buffer-name length found.
