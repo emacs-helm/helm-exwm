@@ -47,7 +47,6 @@
 ;; count manually.
 
 ;;; Code:
-;; TODO: Post on EXWM's wiki once on MELPA.
 
 (require 'helm-source)
 (require 'exwm)
@@ -65,7 +64,7 @@ the EXWM class starts at the column of the open parenthesis in
   "Transformer function to highlight BUFFERS list.
 Should be called after others transformers i.e (boring buffers)."
   (cl-loop for i in buffers
-           for (name class) = (list i (with-current-buffer i exwm-class-name))
+           for (name class) = (list i (with-current-buffer i (or exwm-class-name "")))
            for truncbuf = (if (> (string-width name) helm-exwm-buffer-max-length)
                               (helm-substring-by-width
                                name helm-exwm-buffer-max-length
@@ -166,7 +165,7 @@ Example: List all EXWM buffers but those running XTerm or the URL browser.
 
   (helm-exwm (function
               (lambda ()
-                (pcase (downcase exwm-class-name)
+                (pcase (downcase (or exwm-class-name ""))
                   (\"XTerm\" nil)
                   ((file-name-nondirectory browse-url-generic-program) nil)
                   (_ t)))))"
@@ -190,7 +189,7 @@ With prefix argument or if OTHER-WINDOW is non-nil, open in other window."
     (setq program (or program class)
           other-window (or other-window current-prefix-arg))
     (let ((filter (lambda ()
-                    (string= (downcase exwm-class-name) class))))
+                    (string= (downcase (or exwm-class-name "")) class))))
       (if (and (eq major-mode 'exwm-mode)
                (funcall filter))
           (helm-exwm filter)
