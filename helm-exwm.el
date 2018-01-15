@@ -189,7 +189,8 @@ With prefix argument or if OTHER-WINDOW is non-nil, open in other window."
                     (string= (downcase (or exwm-class-name "")) class))))
       (if (and (eq major-mode 'exwm-mode)
                (funcall filter))
-          (helm-exwm filter)
+          (let ((helm-buffer-details-flag nil))
+            (helm-exwm filter))
         (let ((last (buffer-list)))
           (while (and last
                       (not (with-current-buffer (car last)
