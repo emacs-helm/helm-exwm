@@ -47,6 +47,7 @@
 ;; count manually.
 
 ;;; Code:
+(require 'helm)
 
 (defvar helm-exwm-buffer-max-length 51
   "Max length of EXWM buffer names before truncating.
