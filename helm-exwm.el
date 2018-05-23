@@ -1,6 +1,6 @@
 ;;; helm-exwm.el --- Helm for EXWM buffers -*- lexical-binding: t -*-
 
-;; Copyright (C) 2017 Pierre Neidhardt
+;; Copyright (C) 2017-2018 Pierre Neidhardt
 
 ;; Author: Pierre Neidhardt <ambrevar@gmail.com>
 ;; URL: https://github.com/emacs-helm/helm-exwm
@@ -187,7 +187,7 @@ With prefix argument or if OTHER-WINDOW is non-nil, open in other window."
     (setq program (or program class)
           other-window (or other-window current-prefix-arg))
     (let ((filter (lambda ()
-                    (string= (downcase (or exwm-class-name "")) class))))
+                    (string= (downcase (or exwm-class-name "")) (downcase class)))))
       (if (and (eq major-mode 'exwm-mode)
                (funcall filter))
           (let ((helm-buffer-details-flag nil))
