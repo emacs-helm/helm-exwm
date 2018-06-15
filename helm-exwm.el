@@ -163,7 +163,7 @@ Example: List all EXWM buffers but those running XTerm or the URL browser.
 
   (helm-exwm (function
               (lambda ()
-                (pcase (downcase (or exwm-class-name ""))
+                (pcase (downcase (or exwm-class-name \"\"))
                   (\"XTerm\" nil)
                   ((file-name-nondirectory browse-url-generic-program) nil)
                   (_ t)))))"
