@@ -48,6 +48,12 @@
 
 ;;; Code:
 (require 'helm)
+(require 'exwm)
+(require 'helm-buffers)
+(require 'seq)
+
+;; Silence compiler.
+(defvar browse-url-generic-program)
 
 (defvar helm-exwm-buffer-max-length 51
   "Max length of EXWM buffer names before truncating.
@@ -209,6 +215,7 @@ With prefix argument or if OTHER-WINDOW is non-nil, open in other window."
 
 See `helm-exwm-switch'."
   (interactive)
+  (require 'browse-url)
   (helm-exwm-switch (file-name-nondirectory browse-url-generic-program) browse-url-generic-program))
 
 ;;;###autoload
@@ -217,6 +224,7 @@ See `helm-exwm-switch'."
 
 See `helm-exwm-switch'."
   (interactive)
+  (require 'browse-url)
   (helm-exwm-switch (file-name-nondirectory browse-url-generic-program) browse-url-generic-program t))
 
 (provide 'helm-exwm)
