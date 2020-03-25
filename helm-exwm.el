@@ -59,7 +59,7 @@
   "Max length of EXWM buffer names before truncating.
 When disabled (nil) use the longest buffer-name length found.
 
-See `helm-buffer-max-length`.  This variable's default is so that
+See `helm-buffer-max-length'.  This variable's default is so that
 the EXWM class starts at the column of the open parenthesis in
 `helm-buffers-list' detailed view.")
 
@@ -67,26 +67,29 @@ the EXWM class starts at the column of the open parenthesis in
 (defun helm-exwm-highlight-buffers (buffers)
   "Transformer function to highlight BUFFERS list.
 Should be called after others transformers i.e (boring buffers)."
-  (cl-loop for i in buffers
-           for (name class) = (list i (with-current-buffer i (or exwm-class-name "")))
-           for truncbuf = (if (> (string-width name) helm-exwm-buffer-max-length)
-                              (helm-substring-by-width
-                               name helm-exwm-buffer-max-length
-                               helm-buffers-end-truncated-string)
-                            (concat name
-                                    (make-string
-                                     (- (+ helm-exwm-buffer-max-length
-                                           (length helm-buffers-end-truncated-string))
-                                        (string-width name))
-                                     ? )))
-           collect (let ((helm-pattern (helm-buffers--pattern-sans-filters
-                                        (and helm-buffers-fuzzy-matching ""))))
-                     (cons (if helm-buffer-details-flag
-                               (concat
-                                (funcall helm-fuzzy-matching-highlight-fn truncbuf)
-                                "  " (propertize class 'face 'helm-buffer-process))
-                             (funcall helm-fuzzy-matching-highlight-fn name))
-                           (get-buffer i)))))
+  (let ((max-length (or helm-exwm-buffer-max-length
+                        (cl-loop for b in buffers
+                                 maximize (length b)))))
+    (cl-loop for i in buffers
+             for (name class) = (list i (with-current-buffer i (or exwm-class-name "")))
+             for truncbuf = (if (> (string-width name) max-length)
+                                (helm-substring-by-width
+                                 name max-length
+                                 helm-buffers-end-truncated-string)
+                              (concat name
+                                      (make-string
+                                       (- (+ max-length
+                                             (length helm-buffers-end-truncated-string))
+                                          (string-width name))
+                                       ? )))
+             collect (let ((helm-pattern (helm-buffers--pattern-sans-filters
+                                          (and helm-buffers-fuzzy-matching ""))))
+                       (cons (if helm-buffer-details-flag
+                                 (concat
+                                  (funcall helm-fuzzy-matching-highlight-fn truncbuf)
+                                  "  " (propertize class 'face 'helm-buffer-process))
+                               (funcall helm-fuzzy-matching-highlight-fn name))
+                             (get-buffer i))))))
 
 (defun helm-exwm-toggle-buffers-details ()
   (interactive)
