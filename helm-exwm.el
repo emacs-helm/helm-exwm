@@ -195,22 +195,22 @@ With prefix argument or if OTHER-WINDOW is non-nil, open in other window."
   (unless helm-alive-p
     (setq program (or program class)
           other-window (or other-window current-prefix-arg))
-    (let ((filter (lambda ()
-                    (string= (downcase (or exwm-class-name "")) (downcase class)))))
-      (if (and (eq major-mode 'exwm-mode)
-               (funcall filter))
-          (let ((helm-buffer-details-flag nil))
-            (helm-exwm filter))
-        (let ((last (buffer-list)))
-          (while (and last
-                      (not (with-current-buffer (car last)
-                             (and (eq major-mode 'exwm-mode)
-                                  (funcall filter)))))
-            (setq last (cdr last)))
-          (if last
-              (funcall (if other-window 'switch-to-buffer-other-window 'switch-to-buffer) (car last))
-            (when other-window (select-window (split-window-sensibly)))
-            (start-process-shell-command program nil program)))))))
+    (let* ((filter (lambda ()
+                     (string= (downcase (or exwm-class-name "")) (downcase class))))
+           (maybe-buf (seq-find (lambda (b)
+                                  (with-current-buffer b
+                                    (and (eq major-mode 'exwm-mode)
+                                         (funcall filter))))
+                                (buffer-list))))
+      (cond
+       ((eq maybe-buf (current-buffer))
+        (let ((helm-buffer-details-flag nil))
+          (helm-exwm filter)))
+       (maybe-buf
+        (funcall (if other-window 'switch-to-buffer-other-window 'switch-to-buffer) maybe-buf))
+       (t
+        (when other-window (select-window (split-window-sensibly)))
+        (start-process-shell-command program nil program))))))
 
 ;;;###autoload
 (defun helm-exwm-switch-browser ()
